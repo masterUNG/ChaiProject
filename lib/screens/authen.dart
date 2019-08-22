@@ -1,4 +1,7 @@
+import 'package:chai_project/models/signin_model.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Authen extends StatefulWidget {
   @override
@@ -9,6 +12,8 @@ class _AuthenState extends State<Authen> {
   // Explicit
   final formKey = GlobalKey<FormState>();
   String user, password;
+  String url = 'http://58.137.37.240/dd_backend/TGER/webservice/tiger_score.asmx/Login';
+
 
   // Method
   Widget signInButton() {
@@ -21,11 +26,22 @@ class _AuthenState extends State<Authen> {
             formKey.currentState.save();
 
             print('User = $user, Password = $password');
-
+            findData();
           }
         },
       ),
     );
+  }
+
+  Future<void> findData()async{
+
+    Data myData = Data(username: user, password: password);
+    SignInModel signInModel = SignInModel(module: 'login', target: 'login', data: myData);
+
+    var response = await http.get(url, headers: {'JSON':'application/json'});
+    var result = json.decode(response.body);
+    print('result = $result');
+
   }
 
   Widget userText() {
