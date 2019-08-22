@@ -7,6 +7,8 @@ class Authen extends StatefulWidget {
 
 class _AuthenState extends State<Authen> {
   // Explicit
+  final formKey = GlobalKey<FormState>();
+  String user, password;
 
   // Method
   Widget signInButton() {
@@ -15,6 +17,12 @@ class _AuthenState extends State<Authen> {
         child: Text('Sign In'),
         onPressed: () {
           print('You Click SignIn');
+          if (formKey.currentState.validate()) {
+            formKey.currentState.save();
+
+            print('User = $user, Password = $password');
+
+          }
         },
       ),
     );
@@ -28,6 +36,13 @@ class _AuthenState extends State<Authen> {
           labelText: 'User :',
           helperText: 'Type Your User',
         ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Please Fill User in Blank';
+          }
+        },onSaved: (String value){
+          user = value;
+        },
       ),
     );
   }
@@ -40,7 +55,13 @@ class _AuthenState extends State<Authen> {
         decoration: InputDecoration(
           labelText: 'Password :',
           helperText: 'Type Your Password',
-        ),
+        ),validator: (String value){
+          if (value.isEmpty) {
+            return 'Please Fill Password in Blank';
+          }
+        },onSaved: (String value){
+          password = value;
+        },
       ),
     );
   }
@@ -48,13 +69,16 @@ class _AuthenState extends State<Authen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          userText(),
-          passwordText(),
-          signInButton(),
-        ],
+      body: Form(
+        key: formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            userText(),
+            passwordText(),
+            signInButton(),
+          ],
+        ),
       ),
     );
   }
