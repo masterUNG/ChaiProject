@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chai_project/models/signin_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -12,8 +14,8 @@ class _AuthenState extends State<Authen> {
   // Explicit
   final formKey = GlobalKey<FormState>();
   String user, password;
-  String url = 'http://58.137.37.240/dd_backend/TGER/webservice/tiger_score.asmx/Login';
-
+  String url =
+      'http://58.137.37.240/dd_backend/TGER/webservice/tiger_score.asmx/Login';
 
   // Method
   Widget signInButton() {
@@ -33,15 +35,32 @@ class _AuthenState extends State<Authen> {
     );
   }
 
-  Future<void> findData()async{
-
+  Future<void> findData() async {
     Data myData = Data(username: user, password: password);
-    SignInModel signInModel = SignInModel(module: 'login', target: 'login', data: myData);
+    SignInModel signInModel =
+        SignInModel(module: 'login', target: 'login', data: myData);
+    print('signInModel = ${signInModel.toJson()}');
 
-    var response = await http.get(url, headers: {'JSON':'application/json'});
-    var result = json.decode(response.body);
-    print('result = $result');
+    // var response = await http.get(url, headers: {'JSON':'application/json'});
 
+    Map<String, String> map = {
+      "module": "login",
+      "target": "login",
+      "data": json.encode({"username": "KAM_711", "password": "1aa"})
+    };
+
+    var response = await http.post(
+      url,
+      body: map,
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      encoding: Encoding.getByName("utf-8"),
+    );
+    // var result = json.decode(response.body);
+    // print('result => $result');
+    print(response.body);
   }
 
   Widget userText() {
@@ -56,7 +75,8 @@ class _AuthenState extends State<Authen> {
           if (value.isEmpty) {
             return 'Please Fill User in Blank';
           }
-        },onSaved: (String value){
+        },
+        onSaved: (String value) {
           user = value;
         },
       ),
@@ -71,11 +91,13 @@ class _AuthenState extends State<Authen> {
         decoration: InputDecoration(
           labelText: 'Password :',
           helperText: 'Type Your Password',
-        ),validator: (String value){
+        ),
+        validator: (String value) {
           if (value.isEmpty) {
             return 'Please Fill Password in Blank';
           }
-        },onSaved: (String value){
+        },
+        onSaved: (String value) {
           password = value;
         },
       ),
