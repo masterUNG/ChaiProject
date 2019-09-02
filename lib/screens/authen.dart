@@ -46,12 +46,18 @@ class _AuthenState extends State<Authen> {
     Map<String, String> map = {
       "module": "login",
       "target": "login",
-      "data": json.encode({"username": "KAM_711", "password": "1aa"})
+      "data": json.encode({"username": "KAM_711", "password": "1"})
     };
+
+    var myPost = jsonEncode({
+      "module": "login",
+      "target": "login",
+      "data": json.encode({"username": "KAM_711", "password": "1"})
+    });
 
     var response = await http.post(
       url,
-      body: map,
+      body: myPost,
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/x-www-form-urlencoded"
@@ -60,7 +66,7 @@ class _AuthenState extends State<Authen> {
     );
     // var result = json.decode(response.body);
     // print('result => $result');
-    print(response.body);
+    print(response.statusCode);
   }
 
   Widget userText() {
