@@ -80,6 +80,8 @@ class _AuthenState extends State<Authen> {
         validator: (String value) {
           if (value.isEmpty) {
             return 'Please Fill User in Blank';
+          }else {
+            return null;
           }
         },
         onSaved: (String value) {
