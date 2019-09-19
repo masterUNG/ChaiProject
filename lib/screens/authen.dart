@@ -16,7 +16,7 @@ class _AuthenState extends State<Authen> {
   // Explicit
   final formKey = GlobalKey<FormState>();
   String user, password;
-  String url = 'https://jsonplaceholder.typicode.com/posts';
+  
 
   // Method
   Widget signInButton() {
@@ -37,6 +37,8 @@ class _AuthenState extends State<Authen> {
     );
   }
 
+  
+
   Future<void> _makePostRequest() async {
   // set up POST request arguments
   String url = 'http://58.137.37.240/dd_backend/TGER/webservice/tiger_score.asmx/Login';
@@ -53,48 +55,7 @@ class _AuthenState extends State<Authen> {
   
 }
 
-   Future<void> findData() async {
-    Data myData = Data(username: user, password: password);
-    SignInModel signInModel =
-        SignInModel(module: 'login', target: 'login', data: myData);
-    print('signInModel = ${signInModel.toJson()}');
-
-    // var response = await http.get(url, headers: {'JSON':'application/json'});
-
-    Map<String, String> mapTest = {
-      "module": "login",
-      "target": "login",
-      "data": json.encode({"username": "KAM_711", "password": "1"})
-    };
-
-    String testJSON = '{"title": "Hello", "body": "body text", "userId": 1}';
-
-    var myPost = jsonEncode({
-      "module": "login",
-      "target": "login",
-      "data": json.encode({"username": "KAM_711", "password": "1"})
-    });
-
-    var testPost = jsonEncode(mapTest);
-
-    var response = await http.post(
-      url,
-      body: testJSON,
-      headers: {
-        "Content-Type": "application/json"
-      },
-
-
-      // headers: {
-      //   "Accept": "application/json",
-      //   "Content-Type": "application/x-www-form-urlencoded"
-      // },
-      encoding: Encoding.getByName("utf-8"),
-    );
-    var result = json.decode(response.body);
-    print('result => ${result.toString()}');
-    print(response.statusCode);
-  }
+ 
 
   Widget userText() {
     return Container(
